@@ -1,2 +1,1 @@
-# Ecological-network-inference
-Codes for ecological network inference algorithms (e.g., GLV, statistical approach, machine learning models)
+This approach combines Generalized Lotka-Volterra model (GLV) and Bayesian inference. Compared to the canonical GLV approaches that infer parameters by penalized regression, our approach uses CMDStan (https://mc-stan.org/users/interfaces/cmdstan) to run Bayesian regression, which outputs the posterior distributions for each model parameter.
