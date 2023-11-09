@@ -135,7 +135,7 @@ def generate_XY_matrics(
 #############################################
 # Function: Generate input files for CMD stan
 #############################################
-def wriet_stan_input_file(
+def write_stan_input_file(
     prefix,                     # str: prefix of file names
     stan_path_dir,              # str: directory where stan input files are directed
     Xmat,                       # nd array: X matrix
