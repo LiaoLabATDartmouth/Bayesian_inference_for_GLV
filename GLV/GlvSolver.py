@@ -228,6 +228,7 @@ def parse_stan_output(
     stan_output_path,       # list: path to output stan input files
     taxa_ids,               # list: taxa ids
     perturbation_ids,       # list: perturbation ids
+    bci_cutoff=0.95,        # float: Bayesian credible interval cutoff
     scaling_factor=1,       # float: scaling factor used in the function compute_dlogy_dt
     sig_only=False          # bool: show significant coefficients only
 ):
@@ -250,7 +251,7 @@ def parse_stan_output(
                     data.extend([e/scaling_factor for e in list(fit.posterior[var[0]][i].values)])
                 else:
                     data.extend(list(fit.posterior[var[0]][i].values))
-            x0,x1 = az.hdi(np.array(data), hdi_prob=0.95)
+            x0,x1 = az.hdi(np.array(data), hdi_prob=bci_cutoff)
             res.append([var[0], var[1], var[2], np.mean(data), np.std(data), x0, x1, x0*x1>0])
     df_parsed = pd.DataFrame(res, columns = ['Variable','Taxon1','Taxon2','Mean','STD','95CI_left','95CI_right','Sig'])
 
