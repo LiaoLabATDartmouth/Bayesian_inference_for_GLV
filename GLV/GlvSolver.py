@@ -253,7 +253,7 @@ def parse_stan_output(
                     data.extend(list(fit.posterior[var[0]][i].values))
             x0,x1 = az.hdi(np.array(data), hdi_prob=bci_cutoff)
             res.append([var[0], var[1], var[2], np.mean(data), np.std(data), x0, x1, x0*x1>0])
-    df_parsed = pd.DataFrame(res, columns = ['Variable','Taxon1','Taxon2','Mean','STD','95CI_left','95CI_right','Sig'])
+    df_parsed = pd.DataFrame(res, columns = ['Variable','Taxon1','Taxon2','Mean','STD','BCI_left','BCI_right','Sig'])
 
     if sig_only==True:
         return df_parsed[df_parsed.Sig==True]
