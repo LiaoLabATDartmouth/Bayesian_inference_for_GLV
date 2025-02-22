@@ -1,0 +1,40 @@
+Inference for Stan model: test_glv_model
+3 chains: each with iter=(1000,1000,1000); warmup=(0,0,0); thin=(1,1,1); 3000 iterations saved.
+
+Warmup took (1.3, 1.8, 1.5) seconds, 4.6 seconds total
+Sampling took (19, 19, 19) seconds, 57 seconds total
+
+                                            Mean     MCSE   StdDev        5%       50%       95%  N_Eff  N_Eff/s    R_hat
+
+lp__                                     3.6e+03  8.7e-02  3.1e+00   3.6e+03   3.6e+03   3.6e+03   1317       23      1.0
+accept_stat__                            8.4e-01  1.6e-02  1.4e-01   5.5e-01   8.8e-01   1.0e+00     79      1.4  1.0e+00
+stepsize__                               1.2e-03  7.1e-05  8.7e-05   1.1e-03   1.2e-03   1.3e-03    1.5    0.027  2.3e+13
+treedepth__                              5.3e+00  1.1e-02  5.4e-01   5.0e+00   5.0e+00   6.0e+00   2381       42  1.0e+00
+n_leapfrog__                             4.8e+01  3.5e-01  1.7e+01   3.1e+01   6.3e+01   6.3e+01   2347       41  1.0e+00
+divergent__                              0.0e+00      nan  0.0e+00   0.0e+00   0.0e+00   0.0e+00    nan      nan      nan
+energy__                                -3.6e+03  1.3e-01  4.5e+00  -3.6e+03  -3.6e+03  -3.6e+03   1225       22  1.0e+00
+
+sigma                                    3.1e-02  1.8e-05  6.5e-04   3.0e-02   3.1e-02   3.2e-02   1362       24      1.0
+alpha_Taxon_1                            4.9e-01  2.3e-04  9.4e-03   4.8e-01   4.9e-01   5.1e-01   1658       29      1.0
+beta_Taxon_1_Taxon_1                    -1.4e+00  2.2e-04  1.0e-02  -1.4e+00  -1.4e+00  -1.4e+00   2192       39      1.0
+beta_Taxon_1_Taxon_2                    -5.7e-01  2.2e-04  1.2e-02  -5.9e-01  -5.7e-01  -5.5e-01   2777       49     1.00
+beta_Taxon_1_Taxon_3                    -5.4e-01  4.0e-04  1.6e-02  -5.6e-01  -5.4e-01  -5.1e-01   1650       29      1.0
+epsilon_Taxon_1_Perturbation_Periodic    3.0e-01  5.4e-05  2.8e-03   2.9e-01   3.0e-01   3.0e-01   2758       49     1.00
+epsilon_Taxon_1_Perturbation_Square      1.0e+00  7.7e-05  5.2e-03   1.0e+00   1.0e+00   1.0e+00   4603       81     1.00
+alpha_Taxon_2                            5.0e-01  2.2e-04  9.6e-03   4.8e-01   5.0e-01   5.2e-01   1858       33      1.0
+beta_Taxon_2_Taxon_1                     5.6e-01  2.2e-04  1.0e-02   5.4e-01   5.6e-01   5.8e-01   2274       40      1.0
+beta_Taxon_2_Taxon_2                    -1.4e+00  1.8e-04  1.1e-02  -1.4e+00  -1.4e+00  -1.4e+00   4305       76     1.00
+beta_Taxon_2_Taxon_3                    -2.8e-01  4.1e-04  1.7e-02  -3.1e-01  -2.8e-01  -2.5e-01   1650       29      1.0
+epsilon_Taxon_2_Perturbation_Periodic   -5.0e-01  4.9e-05  2.8e-03  -5.0e-01  -5.0e-01  -5.0e-01   3150       56     1.00
+epsilon_Taxon_2_Perturbation_Square     -3.0e-05  7.9e-05  5.3e-03  -8.8e-03   1.4e-04   8.5e-03   4454       79     1.00
+alpha_Taxon_3                            5.1e-01  2.2e-04  9.5e-03   4.9e-01   5.1e-01   5.2e-01   1885       33     1.00
+beta_Taxon_3_Taxon_1                     2.8e-01  2.2e-04  1.1e-02   2.7e-01   2.8e-01   3.0e-01   2450       43      1.0
+beta_Taxon_3_Taxon_2                     5.7e-01  2.2e-04  1.2e-02   5.5e-01   5.7e-01   5.9e-01   2808       50      1.0
+beta_Taxon_3_Taxon_3                    -1.4e+00  3.7e-04  1.7e-02  -1.5e+00  -1.4e+00  -1.4e+00   1957       35     1.00
+epsilon_Taxon_3_Perturbation_Periodic   -3.0e-01  4.8e-05  2.8e-03  -3.0e-01  -3.0e-01  -2.9e-01   3339       59      1.0
+epsilon_Taxon_3_Perturbation_Square     -1.0e+00  8.0e-05  5.4e-03  -1.0e+00  -1.0e+00  -1.0e+00   4644       82     1.00
+
+Samples were drawn using hmc with nuts.
+For each parameter, N_Eff is a crude measure of effective sample size,
+and R_hat is the potential scale reduction factor on split chains (at 
+convergence, R_hat=1).
