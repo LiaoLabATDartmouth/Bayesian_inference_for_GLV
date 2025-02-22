@@ -1,22 +1,63 @@
 # Overview
-Our approach combines the Generalized Lotka-Volterra model (GLV) with Bayesian inference. In contrast to the canonical GLV approach, which infers model parameters using penalized Ridge regression (as described in this [article](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003388)), our method leverages [CMDStan](https://mc-stan.org/users/interfaces/cmdstan) to perform Bayesian regression. CMDStan provides posterior distributions for model parameters as a measure of parameter uncertainties.
+Our approach combines the **Generalized Lotka-Volterra (GLV) model** with **Bayesian inference**. In contrast to the classical GLV approach, which infers model parameters using penalized Ridge regression (as described in this [article](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003388)), our method leverages [CmdStan](https://mc-stan.org/users/interfaces/cmdstan) for Bayesian regression. CmdStan provides posterior distributions for model parameters, offering a robust measure of parameter uncertainty. We have applied this approach to study the ecological dynamics of the gut microbiome in response to dietary fiber supplementation. You can find our paper [here](https://academic.oup.com/ismej/article/16/8/2040/7474293).
 
-We have applied this approach to study the ecological dynamics of the gut microbiome in response to dietary fiber supplementation. You can find our paper [here](https://academic.oup.com/ismej/article/16/8/2040/7474293).
+---
 
 # Prerequisites
 The guidelines for installing CmdStan can be found [here](https://mc-stan.org/docs/cmdstan-guide/installation.html).
 
-# GlvSolver library
-GlvSolver is a library of functions for input data processing, stan files preparation, and generating summarys of stan output. The second version (GlvSolver_v2) uses matrix multiplication and is more efficient. It is highly recommended over the first version (GlvSolver_v1), which may encoutner difficulties in compiling complex problems (e.g., too many taxa).
+---
+
+# GlvSolver Library
+**GlvSolver** is a library of functions for input data processing, Stan file preparation, and parsing Stan output.
+
+- **GlvSolver_v2** (Recommended) – Uses **matrix multiplication**, making it significantly more efficient.  
+- **GlvSolver_v1** – May encounter **compilation difficulties** with complex problems (e.g., when handling a large number of taxa).
+
+---
 
 # Usage
-Please use the Jupyter notebooks included in the test examples as a starting point. The first step is to prepare an input table for GlvSolver. This table should include the following columns: SubjectID, SampleID, Timepoint, Perturbation_1, Perturbation_2, …, Perturbation_N, Taxon_1, Taxon_2, …, Taxon_N. You may replace the perturbation and taxon IDs with more interpretable labels, as long as they still begin with ‘Perturbation_’ and ‘Taxon_’, respectively.
 
-Once this table is available, you can pass this table to the function `compute_dlogy_dt` to compute log-derivatives (i.e., dlogX/dt). We implemented two approaches for gradient computation: derivatives of cubic spline fitting and second-order central difference. The computed log-derivatives will be added to the input table as additional columns.
+## 1. Preparing Input Data
+Please use the Jupyter notebooks included in the test examples as a starting point. The first step is to prepare an input table for GlvSolver with the following columns:
 
-The next step is generate X and Y matrics for GLV regression using the function `generate_XY_matrics`. Both matrics are further passed into the function `write_stan_input_file` to generate data and model stan files. In this function, we provide flexible to exclude certain interaction parameters by setting their associated coefficients to 0. These interactions can be set by passing a list of tuples as pairs_toi_exclude. We also allow parameter constrains on self-interactions. If
-`neg_self_int` is set to True, the self-interactions (diagnoanls of beta) will be constrained to negative (i.e., force intraspecies competition).
+| Column Name      | Description |
+|-----------------|-------------|
+| **SubjectID**   | Unique identifier for subjects |
+| **SampleID**    | Unique identifier for samples |
+| **Timepoint**   | Time point of measurement |
+| **Perturbation_1, ..., Perturbation_N** | External perturbations (e.g., treatments, interventions) |
+| **Taxon_1, ..., Taxon_N** | Abundance of microbial taxa |
 
-Using the genertated stan data and model files, you can go to the folder that contain these files and run `run_cmdstan.sh`. By defaulkt, it generates 3 markov chains and generat esummary of the chains. plEAS check R2_Hat in the last column of the summary file. A converence requires R2_Hatr very close to 1 (e..g,  < 1.05).
+You may replace perturbation and taxon IDs with more interpretable labels, as long as they still begin with "Perturbation_" and "Taxon_", respectively.
 
-To generate statistics of posterior distributiosn of these parameters, we can run the function `parse_stan_output`. You can set bci_cutoff as a way to specific the credible interaction. The signaicne column is determined when the entire credible interveal is above or below zero. Otherwise, it is not significnat.
+---
+
+## 2. Computing Log-Derivatives
+Once the input table is ready, use the function `compute_dlogy_dt()` to calculate log-derivatives (dlogX/dt). We implemented two approaches for gradient computation:  
+
+- Cubic spline fitting
+- Second-order central difference
+
+The computed log-derivatives will be appended as additional columns in the input table.
+
+---
+
+## 3. Generating X and Y Matrices
+Next, generate the **X and Y matrices** required for GLV regression using `generate_XY_matrices()`. Then, pass these matrices to `write_stan_input_file()`. This function generates Stan data and model files while allowing:  
+
+- Exclusion of specific interactions (by setting coefficients to 0 using the `pairs_to_exclude` argument).  
+- Parameter constraints on self-interactions (`neg_self_int=True` constrains diagonal elements of beta matrix to be non-positive).
+
+---
+
+## 4. Running CmdStan
+Navigate to the folder containing the generated Stan files and run `./run_cmdstan.sh`. By default, this script generates 3 Markov chains and produces a summary of posterior distributions from the Stan model. To verify model convergence, inspect the R̂ (R-hat) value in the summary file. Convergence is achieved when R̂ ≈ 1.00 (typically < 1.05).
+
+---
+
+## 6. Analyzing Posterior Distributions
+To parse and summarize posterior distributions of model parameters, use `parse_stan_output()`. You can set `bci_cutoff` to define a credible threshold. The significance column is determined as follows:  
+
+- If the entire credible interval is above or below zero, the interaction is significant.  
+- Otherwise, it is not significant.
